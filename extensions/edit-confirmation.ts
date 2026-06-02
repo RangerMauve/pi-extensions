@@ -3,6 +3,69 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
+// -- Whitelisted commands (read-only / harmless) --
+const WHITELIST = [
+  // shell utils
+  "grep",
+  "find",
+  "ls",
+  "cat",
+
+  // version checks
+  "go version",
+  "node --version",
+  "python --version",
+  "ruby --version",
+  "cargo --version",
+  "pnpm --version",
+  "yarn --version",
+
+  // git
+  "git diff",
+
+  // node / js
+  "node --test",
+  "npm ls",
+  "npm show",
+
+  // go
+  "go mod verify",
+  "go list",
+  "go list -m -mod=mod",
+  "go mod graph",
+
+  // rust
+  "cargo check",
+  "cargo metadata",
+  "cargo tree",
+
+  // python / venv
+  "pip list",
+  "pip show",
+  "poetry show",
+  "uv pip list",
+  "uv pip show",
+
+  // gradle
+  "gradle dependencies",
+  "gradle projects",
+  "gradle tasks",
+];
+
+function isWhitelisted(command: string, cwd: string): boolean {
+  for (const cmd of WHITELIST) {
+    if (
+      command === cmd ||
+      command.startsWith(cmd + " ") ||
+      command.startsWith(cmd + "\t") ||
+      command.startsWith(`cd ${cwd} && ${cmd}`)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export default function (pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
     if (!ctx.hasUI) {
@@ -14,14 +77,13 @@ export default function (pi: ExtensionAPI) {
     if (event.toolName === "edit") {
       const input = event.input as Record<string, unknown>;
       const path = input.path as string;
-      const confirmed = await ctx.ui.confirm(
-        `Edit: ${path}`,
-        `Confirm this edit?`,
-      );
+
+      const confirmed = await ctx.ui.confirm(`Edit: ${path}`, "Confirm this edit?");
 
       if (!confirmed) {
         return { block: true, reason: "Edit cancelled by user" };
       }
+
       return undefined;
     }
 
@@ -30,14 +92,12 @@ export default function (pi: ExtensionAPI) {
       const input = event.input as Record<string, unknown>;
       const path = input.path as string;
 
-      const confirmed = await ctx.ui.confirm(
-        `Write: ${path}`,
-        `Confirm write?`,
-      );
+      const confirmed = await ctx.ui.confirm(`Write: ${path}`, "Confirm write?");
 
       if (!confirmed) {
         return { block: true, reason: "Write cancelled by user" };
       }
+
       return undefined;
     }
 
@@ -47,25 +107,19 @@ export default function (pi: ExtensionAPI) {
       const command = input.command as string;
 
       // Auto-allow whitelisted commands
-      const whitelisted = ["grep", "find", "ls", "cat", "node --test", "git diff", "npm ls", "npm show"];
-      for (const cmd of whitelisted) {
-        if (
-          command === cmd ||
-          command.startsWith(cmd + " ") ||
-          command.startsWith(`cd ${ctx.cwd} && ${cmd}`)
-        ) {
-          return undefined;
-        }
+      if (isWhitelisted(command, ctx.cwd)) {
+        return undefined;
       }
 
       const confirmed = await ctx.ui.confirm(
         `Bash: ${command.slice(0, 120)}`,
-        `Run this command?`,
+        "Run this command?",
       );
 
       if (!confirmed) {
         return { block: true, reason: "Bash command cancelled by user" };
       }
+
       return undefined;
     }
   });
