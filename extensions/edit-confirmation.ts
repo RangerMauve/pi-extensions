@@ -47,7 +47,7 @@ export default function (pi: ExtensionAPI) {
       const command = input.command as string;
 
       // Auto-allow whitelisted commands
-      const whitelisted = ["grep", "find", "ls", "cat", "node --test", "git diff"];
+      const whitelisted = ["grep", "find", "ls", "cat", "node --test", "git diff", "npm ls", "npm show"];
       for (const cmd of whitelisted) {
         if (
           command === cmd ||
