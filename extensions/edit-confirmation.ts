@@ -114,8 +114,14 @@ export default function (pi: ExtensionAPI) {
         return undefined;
       }
 
+      // Strip the "cd cwd &&" prefix for cleaner display
+      const displayPrefix = `cd ${ctx.cwd} && `;
+      const displayCommand = command.startsWith(displayPrefix)
+        ? command.slice(displayPrefix.length)
+        : command;
+
       const confirmed = await ctx.ui.confirm(
-        `Bash: ${command.slice(0, 120)}`,
+        `Bash: ${displayCommand.slice(0, 120)}`,
         "Run this command?",
       );
 
