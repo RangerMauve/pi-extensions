@@ -25,6 +25,9 @@ const WHITELIST = [
 
   // node / js
   "node --test",
+  "npm test",
+  "npm run format",
+  "npm run lint",
   "npm ls",
   "npm show",
 
