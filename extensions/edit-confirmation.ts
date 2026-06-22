@@ -10,6 +10,8 @@ const WHITELIST = [
   "find",
   "ls",
   "cat",
+  "head",
+  "wc",
 
   // version checks
   "go version",
@@ -26,6 +28,7 @@ const WHITELIST = [
   // node / js
   "node --test",
   "npm test",
+  "npm run test",
   "npm run format",
   "npm run lint",
   "npm ls",
