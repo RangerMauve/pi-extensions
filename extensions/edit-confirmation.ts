@@ -24,6 +24,11 @@ const WHITELIST = [
 
   // git
   "git diff",
+  "git status",
+  "git log",
+  "git show",
+  "git branch",
+  "git remote -v",
 
   // node / js
   "node --test",
