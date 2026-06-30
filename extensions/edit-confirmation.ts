@@ -12,6 +12,7 @@ const WHITELIST = [
   "cat",
   "head",
   "wc",
+  "which",
 
   // version checks
   "go version",
@@ -38,6 +39,7 @@ const WHITELIST = [
   "npm run lint",
   "npm ls",
   "npm show",
+  "npm search",
 
   // go
   "go mod verify",
