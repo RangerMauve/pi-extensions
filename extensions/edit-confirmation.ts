@@ -3,8 +3,8 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-// -- Whitelisted commands (read-only / harmless) --
-const WHITELIST = [
+// -- Allowed commands (read-only / harmless) --
+const ALLOWED_COMMANDS = [
   // shell utils
   "grep",
   "find",
@@ -65,8 +65,8 @@ const WHITELIST = [
   "gradle tasks",
 ];
 
-function isWhitelisted(command: string, cwd: string): boolean {
-  for (const cmd of WHITELIST) {
+function isAllowed(command: string, cwd: string): boolean {
+  for (const cmd of ALLOWED_COMMANDS) {
     if (
       command === cmd ||
       command.startsWith(cmd + " ") ||
@@ -119,8 +119,8 @@ export default function (pi: ExtensionAPI) {
       const input = event.input as Record<string, unknown>;
       const command = input.command as string;
 
-      // Auto-allow whitelisted commands
-      if (isWhitelisted(command, ctx.cwd)) {
+      // Auto-allow allowed commands
+      if (isAllowed(command, ctx.cwd)) {
         return undefined;
       }
 
