@@ -18,6 +18,7 @@ const ALLOWED_COMMANDS = [
   // version checks
   "go version",
   "node --version",
+  "npx node --version",
   "python --version",
   "ruby --version",
   "cargo --version",
@@ -34,6 +35,10 @@ const ALLOWED_COMMANDS = [
 
   // node / js
   "node --test",
+  "npx node --test",
+  "npx tsc",
+  "npx prettier",
+  "npx eslint",
   "npm test",
   "npm run test",
   "npm run format",
