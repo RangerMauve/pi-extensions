@@ -13,6 +13,7 @@ const ALLOWED_COMMANDS = [
   "head",
   "wc",
   "which",
+  "sed -n",
 
   // version checks
   "go version",
