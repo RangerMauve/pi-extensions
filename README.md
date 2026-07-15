@@ -21,6 +21,16 @@ Tab-completes words from your chat history. More recent words appear first.
 
 **Example:** if the assistant mentions `MyComponentClass` in the last message, typing `my` + Tab will suggest it first.
 
+### `lsp`
+
+LSP-powered code navigation tools for TypeScript, JavaScript, and Rust.
+
+- **`lsp_rename_symbol`:** Rename a symbol across the entire codebase
+- **`lsp_find_references`:** Find all references to a symbol with surrounding context (2 lines before, 1 after)
+- **`lsp_find_definition`:** Jump to the definition of a symbol with surrounding context
+
+All tools auto-detect the correct language server (`typescript-language-server` or `rust-analyzer`) based on file extension and manage server lifecycles automatically.
+
 ### `edit-confirmation`
 
 Pops a confirmation dialog before the model runs `edit`, `write`, or `bash` tool calls.
