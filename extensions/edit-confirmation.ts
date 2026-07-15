@@ -97,6 +97,7 @@ export default function (pi: ExtensionAPI) {
       const input = event.input as Record<string, unknown>;
       const path = input.path as string;
 
+      process.stdout.write("\x07");
       const confirmed = await ctx.ui.confirm(`Edit: ${path}`, "Confirm this edit?");
 
       if (!confirmed) {
@@ -111,6 +112,7 @@ export default function (pi: ExtensionAPI) {
       const input = event.input as Record<string, unknown>;
       const path = input.path as string;
 
+      process.stdout.write("\x07");
       const confirmed = await ctx.ui.confirm(`Write: ${path}`, "Confirm write?");
 
       if (!confirmed) {
@@ -136,6 +138,7 @@ export default function (pi: ExtensionAPI) {
         ? command.slice(displayPrefix.length)
         : command;
 
+      process.stdout.write("\x07");
       const confirmed = await ctx.ui.confirm(
         `Bash: ${displayCommand.slice(0, 120)}`,
         "Run this command?",
