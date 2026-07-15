@@ -4,6 +4,12 @@ A collection of custom extensions for [pi](https://pi.dev).
 
 ## Extensions
 
+### `bell-chime`
+
+Plays a terminal bell (`\x07`) when the agent finishes generating a response.
+
+- Only active in interactive UI mode — silently skipped in print/RPC mode
+
 ### `chat-history-autocomplete`
 
 Tab-completes words from your chat history. More recent words appear first.
@@ -20,7 +26,7 @@ Tab-completes words from your chat history. More recent words appear first.
 Pops a confirmation dialog before the model runs `edit`, `write`, or `bash` tool calls.
 
 - **`edit` / `write`:** always asks before modifying files
-- **`bash`:** asks unless the command is whitelisted. Default whitelist: `grep`, `find`, `ls`, `cat`, `node --test`, `git diff`
+- **`bash`:** asks unless the command is whitelisted. Default whitelist includes shell utils (`grep`, `find`, `ls`, `cat`, `head`, `wc`, `which`, `sed -n`), version checks (`go version`, `node --version`, `python --version`, etc.), git (`git diff`, `git status`, `git log`, `git show`, etc.), and read-only tool commands for Node (`npm test`, `npx tsc`, `npx eslint`), Go (`go mod verify`), Rust (`cargo check`), Python (`pip list`, `poetry show`), and Gradle
 - Silently allows all through in non-interactive modes (print, RPC) where there's no UI to confirm
 
 ## Install
