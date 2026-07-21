@@ -39,6 +39,13 @@ Pops a confirmation dialog before the model runs `edit`, `write`, or `bash` tool
 - **`bash`:** asks unless the command is whitelisted. Default whitelist includes shell utils (`grep`, `find`, `ls`, `cat`, `head`, `wc`, `which`, `sed -n`), version checks (`go version`, `node --version`, `python --version`, etc.), git (`git diff`, `git status`, `git log`, `git show`, etc.), and read-only tool commands for Node (`npm test`, `npx tsc`, `npx eslint`), Go (`go mod verify`), Rust (`cargo check`), Python (`pip list`, `poetry show`), and Gradle
 - Silently allows all through in non-interactive modes (print, RPC) where there's no UI to confirm
 
+### `silent-ui`
+
+Hides the "Working..." loading indicator and bottom status bar for a cleaner, screen-reader-friendly interface.
+
+- `setWorkingVisible(false)` — removes the working indicator (label + spinner) during streaming
+- `setFooter(...)` — replaces the footer with an empty renderer
+
 ## Install
 
 ```bash
