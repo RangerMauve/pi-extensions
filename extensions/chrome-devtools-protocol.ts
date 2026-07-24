@@ -434,9 +434,22 @@ export default function (pi: ExtensionAPI) {
           });
         });
 
-        const outputPath = params.outputPath ?? "/tmp/cdp-screenshot.png";
-        await writeFile(outputPath, Buffer.from(result.data, "base64"));
-        return { content: [{ type: "text", text: `Screenshot saved to ${outputPath}` }] };
+        const base64 = result.data;
+        const format = params.format ?? "png";
+        const mimeType = `image/${format}`;
+
+        // Save to disk if outputPath specified
+        if (params.outputPath) {
+          await writeFile(params.outputPath, Buffer.from(base64, "base64"));
+        }
+
+        // Return image directly to pi so the model can see it
+        return {
+          content: [
+            { type: "text", text: params.outputPath ? `Screenshot saved to ${params.outputPath}` : "Screenshot captured" },
+            { type: "image", data: base64, mimeType },
+          ],
+        };
       } catch (err: any) {
         return { content: [{ type: "text", text: `Screenshot error: ${err.message}` }], isError: true };
       }
